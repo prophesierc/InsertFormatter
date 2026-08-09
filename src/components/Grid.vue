@@ -28,12 +28,15 @@
       </table>
     </div>
 
-    <div class="flex justify-center overflow-auto text-slate-200">
+    <div
+      class="flex flex-row max-w-screen resize overflow-auto bg-slate-900 m-10"
+    >
       <pre
-        class="mt-10 h-[25vh] w-[80vw] resize both overflow-auto bg-slate-900 p-4 max-w-screen mx-4 mb-10"
+        class="overflow-auto bg-slate-900 text-slate-200 h-[35vh] p-5"
         v-html="highlightedOutput"
         :key="textAreaSize"
       />
+      <Basebutton @click="copy" class="ml-auto h-10 w-20"> Copy </Basebutton>
     </div>
   </div>
 </template>
@@ -74,6 +77,10 @@ const reset = () => {
     row.fill("");
   });
   textAreaSize.value++;
+};
+
+const copy = async () => {
+  await navigator.clipboard.writeText(output.value);
 };
 
 const highlightedOutput = computed(() => {
