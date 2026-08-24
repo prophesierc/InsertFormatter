@@ -5,6 +5,8 @@
       <Basebutton @click="addColumn"> + Add Column </Basebutton>
       <Basebutton @click="clear"> Clear </Basebutton>
       <Basebutton @click="reset"> Reset </Basebutton>
+      <Basebutton @click="trim"> Trim </Basebutton>
+      <Basebutton @click="flip"> Flip </Basebutton>
     </div>
 
     <div class="overflow-auto mx-4">
@@ -64,9 +66,10 @@ const addColumn = () => {
 };
 
 const clear = () => {
-  rows.value.forEach((row) => {
-    row.fill("");
-  });
+  rows.value = Array.from(
+    { length: defaultRowCount },
+    () => Array(defaultColumnCount).fill('')
+  );
 };
 
 const reset = () => {
@@ -81,6 +84,34 @@ const reset = () => {
 
 const copy = async () => {
   await navigator.clipboard.writeText(output.value);
+};
+
+const isTableEmpty = () => {
+  return rows.value.every(row =>
+    row.every(value => value === '')
+  );
+};
+
+const trim = () => {
+  if (!isTableEmpty()){
+    rows.value = rows.value.filter(row =>
+      row.some(value => value !== '')
+    );
+  }
+  return rows.value;
+};
+
+const flip = () => {
+  if (!rows.value.length) return;
+
+  rows.value = rows.value[0].map((_, index) =>
+    rows.value.map(row => row[index])
+  );
+
+  rows.value.length = defaultRowCount;
+  rows.value.forEach((row) => {
+    row.length = defaultColumnCount;
+  });
 };
 
 const highlightedOutput = computed(() => {
