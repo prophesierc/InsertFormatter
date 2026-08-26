@@ -14,7 +14,7 @@
         <tbody>
           <tr v-for="(row, rowIndex) in rows" :key="rowIndex">
             <td
-              v-for="columnIndex in row.length"
+              v-for="columnIndex in row?.length"
               :key="columnIndex"
               class="border border-slate-700 p-0"
             >
@@ -93,25 +93,27 @@ const isTableEmpty = () => {
 };
 
 const trim = () => {
-  if (!isTableEmpty()){
-    rows.value = rows.value.filter(row =>
-      row.some(value => value !== '')
-    );
+  for (let column = 0; column < defaultColumnCount; column++) 
+  {
+    const values = rows.value.map(row => row[column]).filter(value => value !== '');
+    rows.value.forEach((row, index) => {
+      row[column] = values[index] ?? '';
+    });
   }
   return rows.value;
 };
 
 const flip = () => {
-  if (!rows.value.length) return;
+  if (!isTableEmpty()) {
+    rows.value = rows.value[0].map((_, index) =>
+      rows.value.map(row => row[index])
+    );
 
-  rows.value = rows.value[0].map((_, index) =>
-    rows.value.map(row => row[index])
-  );
-
-  rows.value.length = defaultRowCount;
-  rows.value.forEach((row) => {
-    row.length = defaultColumnCount;
-  });
+    rows.value.length = defaultRowCount;
+    rows.value.forEach((row) => {
+      row.length = defaultColumnCount;
+    });
+  }
 };
 
 const highlightedOutput = computed(() => {
