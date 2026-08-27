@@ -1,5 +1,5 @@
 [package]
-name = "Insert Formatter"
+name = "InsertFormatter"
 version = "0.1.2"
 description = "Insert Formatter"
 authors = ["ProphesierC"]
