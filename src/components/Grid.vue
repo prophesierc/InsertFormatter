@@ -9,8 +9,8 @@
       <Basebutton @click="flip"> Flip </Basebutton>
     </div>
 
-    <div class="overflow-auto mx-4">
-      <table class="border-collapse border border-slate-700 text-sm">
+    <div class="overflow-auto mx-4 flex flex-col items-center-safe">
+      <table class="border-collapse border border-slate-700 text-sm ">
         <tbody>
           <tr v-for="(row, rowIndex) in rows" :key="rowIndex">
             <td
@@ -21,7 +21,7 @@
               <input
                 v-model="row[columnIndex - 1]"
                 :data-column="columnIndex - 1"
-                class="h-9 w-[4.85vw] max-w-full bg-slate-900 px-2 text-slate-200 outline-none focus:bg-slate-800"
+                class="h-9 w-[9vw] max-w-full bg-slate-900 px-2 text-slate-200 outline-none focus:bg-slate-800"
                 @paste="paste($event, rowIndex, columnIndex - 1)"
               />
             </td>
@@ -48,7 +48,7 @@ import Basebutton from "@/components/base/Basebutton.vue";
 import { ref, computed } from "vue";
 
 const defaultRowCount = 10;
-const defaultColumnCount = 20;
+const defaultColumnCount = 10;
 const textAreaSize = ref(0);
 
 const rows = ref(
